@@ -13,7 +13,6 @@ body.appendChild(searchForBeans);
 var plantBeans = document.createElement('button');
 plantBeans.id = 'plantBeans'
 plantBeans.innerHTML = 'Plant beans';
-body.appendChild(plantBeans);
 
 //What happens when button is clicked
 searchForBeans.addEventListener('click', updateBeanCount);
@@ -26,6 +25,10 @@ document.getElementById('beanCounter').innerHTML = "You have "+ beanCount + " be
 function updateBeanCount(){
     beanCount++;
     document.getElementById("beanCounter").innerHTML = "You have "+ beanCount + " beans.";
+
+    if(beanCount > 5) {
+        body.appendChild(plantBeans);
+    }
 };
 
 //Function to add 1 plant per button click

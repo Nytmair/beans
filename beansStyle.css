@@ -22,7 +22,7 @@ button:hover {
   background: rgb(208, 173, 255);
 }
   
-h1 {
+#masterClock {
   text-align: center;
 }
 
@@ -36,7 +36,7 @@ h2 {
   margin: 0;
 }
 
-#beansPlantedCounter {
+#sproutsCounter {
   color:rgb(255, 242, 67);
   font-size: 12pt;
   margin: 0;
@@ -48,8 +48,16 @@ h2 {
   margin: 0;
 }
 
-#beanPlantsCounter {
+#plantsCounter {
   color:rgb(255, 242, 67);
   font-size: 12pt;
   margin: 0;
+  display: inline-block;
+}
+
+#timer {
+  color:rgb(67, 255, 67);
+  font-size: 12pt;
+  margin: 0;
+  display: inline-block;
 }

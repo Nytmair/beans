@@ -6,13 +6,17 @@ body {
   }
 
 button {
-  margin-right: 10px;
-  margin-top: 20px;
-  line-height: 100%;
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  line-height: 15px;
   padding: 10px;
   background: rgb(255, 255, 255);
   border: none;
   border-radius: 8px;
+  width: 175px;
+  font-family: Courier New, monospace;
+  font-size: 12pt;
 }
 button:hover {
   background: rgb(208, 173, 255);
@@ -28,12 +32,24 @@ h2 {
 
 #beanCounter {
   color:rgb(255, 242, 67);
-  font-size: larger;
+  font-size: 14pt;
   margin: 0;
 }
 
-#inventory {
+#beansPlantedCounter {
   color:rgb(255, 242, 67);
-  font-size: small;
+  font-size: 12pt;
+  margin: 0;
+}
+
+#waterCounter {
+  color:rgb(255, 242, 67);
+  font-size: 12pt;
+  margin: 0;
+}
+
+#beanPlantsCounter {
+  color:rgb(255, 242, 67);
+  font-size: 12pt;
   margin: 0;
 }

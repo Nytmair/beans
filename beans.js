@@ -26,14 +26,18 @@ function updateBeanCount(){
     beanCount++;
     document.getElementById("beanCounter").innerHTML = "You have "+ beanCount + " beans.";
 
-    if(beanCount > 5) {
+    if(beanCount > 4) {
         body.appendChild(plantBeans);
     }
 };
 
 //Function to add 1 plant per button click
 function updateBeanPlants(){
+    if(beanCount > 0) {
     beanPlants++;
+    beanCount--;
+    document.getElementById("beanCounter").innerHTML = "You have "+ beanCount + " beans.";
     document.getElementById("inventory").innerHTML = "Bean plants: " + beanPlants;
+    }
 };
 

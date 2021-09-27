@@ -1,8 +1,12 @@
 //Assign Variables
 var beanCount = 0;
+var maxBeans = 50;
 var sprouts = 0;
+var maxSprouts = 5;
 var water = 0;
+var maxWater = 4;
 var plants = 0;
+var maxPlants = maxSprouts;
 var timeSproutsToPlants = 5; //Time for wateredSprout to grow into a plant (in seconds)
 var wateredSproutsTimers = []; //Array storing the wateredSprouts times until grown into plants
 
@@ -11,8 +15,8 @@ var searchForBeans = document.createElement('button');
 searchForBeans.id = 'searchForBeans';
 searchForBeans.innerHTML = 'Search for beans';
 searchForBeans.visible = false;
-var body = document.getElementsByTagName('body')[0];
-body.appendChild(searchForBeans);
+var main = document.getElementsByClassName('main')[0];
+main.appendChild(searchForBeans);
 
 //Plant Beans Button
 var plantBeans = document.createElement('button');
@@ -44,8 +48,8 @@ plantBeans.addEventListener('click', updateSprouts);
 gatherWater.addEventListener('click', updateWater);
 waterSprouts.addEventListener('click', updatewaterSprouts);
 
-//Display beanCount String
-document.getElementById('beanCounter').innerHTML = "You have "+ beanCount + " beans.";
+//Display beanCount String from start
+document.getElementById('beanCounter').innerHTML = "Beans: "+ beanCount + "/" + maxBeans;
 
 //Master Clock
 var x = 0;
@@ -67,7 +71,7 @@ function growSproutsToPlants() {
             wateredSproutsTimers.splice(0,1);
             plants++;
         }
-        document.getElementById('plantsCounter').innerHTML = "Plants: " + plants; 
+        document.getElementById('plantsCounter').innerHTML = "Plants: " + plants + "/" + maxPlants; 
         document.getElementById('test').innerHTML = wateredSproutsTimers;
         document.getElementById('test2').innerHTML = "Watered Sprouts: " + wateredSproutsTimers.length;
     }
@@ -75,37 +79,45 @@ function growSproutsToPlants() {
 
 //Function to add 1 bean per button click
 function updateBeanCount(){
-    beanCount++;
-    document.getElementById('beanCounter').innerHTML = "You have "+ beanCount + " beans.";
-
-    if(beanCount > 4 & searchForBeans.visible == false) {
-        body.appendChild(plantBeans);
-        searchForBeans.visible = true;
+    if(beanCount < maxBeans) {
+        beanCount++;
+        document.getElementById('beanCounter').innerHTML = "Beans: "+ beanCount + "/" + maxBeans;
+    
+        if(beanCount > 4 & searchForBeans.visible == false) {
+            main.appendChild(plantBeans);
+            searchForBeans.visible = true;
+        }
     }
+    
 };
 
 //Function to add 1 sprout and remove 1 bean per button click
 function updateSprouts(){
     if(beanCount > 0) {
-        sprouts++;
-        beanCount--;
-        document.getElementById('beanCounter').innerHTML = "You have "+ beanCount + " beans.";
-        document.getElementById('sproutsCounter').innerHTML = "Sprouts: " + sprouts;
+        if (sprouts < maxSprouts) {
+            sprouts++;
+            beanCount--;
+            document.getElementById('beanCounter').innerHTML = "Beans: "+ beanCount + "/" + maxBeans;
+            document.getElementById('sproutsCounter').innerHTML = "Sprouts: " + sprouts + "/" + maxSprouts;
+        }
     }
     if(sprouts > 0 & plantBeans.visible == false) {
-        body.appendChild(gatherWater);
+        main.appendChild(gatherWater);
         plantBeans.visible = true;
     }
 };
 
 //Function to add 1 water per button click
 function updateWater(){
-    water++;
+    if (water < maxWater) {
+        water++;
+    }
     if(water >= 0) {
-        document.getElementById('waterCounter').innerHTML = "Water: " + water + " fl oz";
+        document.getElementById('waterCounter').innerHTML = "Water: " + water + "/" + maxWater + " fl oz";
     }
     if(sprouts > 0 & water > 0 & waterSprouts.visible == false) {
-        body.appendChild(waterSprouts);
+        main.appendChild(waterSprouts);
+        sproutGrowProgressBarFill.visible = true;
         waterSprouts.visible = true;
     }
 };
@@ -114,11 +126,12 @@ function updateWater(){
 function updatewaterSprouts(){
     if(water > 0) {  
         water--;
-        if(sprouts > 0) {
+        if(sprouts > 0 & (wateredSproutsTimers.length - plants) < maxPlants) {
             sprouts--;
             wateredSproutsTimers.push(timeSproutsToPlants); 
         }
-        document.getElementById('sproutsCounter').innerHTML = "Sprouts: " + sprouts;   
-        document.getElementById('waterCounter').innerHTML = "Water: " + water + " fl oz";
+        document.getElementById('sproutsCounter').innerHTML = "Sprouts: " + sprouts + "/" + maxSprouts;   
+        document.getElementById('waterCounter').innerHTML = "Water: " + water + "/" + maxWater + " fl oz";
+        document.getElementById('test3').innerHTML = wateredSproutsTimers.length - plants
     }
 }

@@ -1,8 +1,4 @@
-Beans.
-They're magical.
-They're fruit.
-They'll make you... loot?
+Development started 9/24/2021.
 
-Welcome to my first game. I hope you enjoy it!
 Thanks for stopping by,
 Nytmair

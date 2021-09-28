@@ -1,6 +1,7 @@
 //Assign Variables
 var beanCount = 0; //Bean count in resources
 var maxBeans = 100; //Max beans in resources
+var harvestPlantsBeanCount = 5; //Number of beans harvested per plant harvested
 var beanSearchTimer = 10; //Seconds after "search for beans" button
 var sprouts = 0; //Sprouts count in resources
 var maxSprouts = 15; //Max sprouts in resources
@@ -88,19 +89,31 @@ searchForBeans.addEventListener('click', updateBeanCount);
 plantBeans.addEventListener('click', updateSprouts);
 gatherWater.addEventListener('click', updateWater);
 waterSprouts.addEventListener('click', updatewaterSprouts);
+harvestPlants.addEventListener('click', updateHarvestPlants);
 
 //Display beanCount String from start
 document.getElementById('beanCounter').innerHTML = "Beans: "+ beanCount + "/" + maxBeans;
+
+//Narrative
+document.getElementById('narrative001').innerHTML = "test";
 
 //Master Clock
 var x = 1;
 var masterClock = setInterval(tick, 1000);
 
 function tick() {
-    document.getElementById('masterClock').innerHTML = "Seconds since starting: " + x;
+    document.getElementById("masterClock").innerHTML = "Seconds since starting: " + x;
     x++;
 
     growSproutsToPlants();
+    updateGrowingSproutsCounter();
+}
+
+//Function to update growingSproutsCounter
+function updateGrowingSproutsCounter() {
+    if (waterSprouts.visible == true) {
+    document.getElementById('growingSproutsCounter').innerHTML = "Current sprouts growing: " + wateredSproutsTimers.length;
+    }
 }
 
 //Function to reduce timeSproutsToPlants in the wateredSproutsTimers array
@@ -156,20 +169,31 @@ function updateWater(){
     }
     if(sprouts > 0 & water > 0 & waterSprouts.visible == false) {
         maintab.appendChild(waterSprouts);
-        sproutGrowProgressBarFill.visible = true;
         waterSprouts.visible = true;
     }
 };
 
-//Function to remove 1 water, remove one sprout, and add one wateredSprout > plant 
+//Function to remove 1 water, remove one sprout, and add one wateredSprout to plant 
 function updatewaterSprouts(){
     if(water > 0) {  
         water--;
         if(sprouts > 0 & (wateredSproutsTimers.length + plants) < maxPlants) {
             sprouts--;
-            wateredSproutsTimers.push(timeSproutsToPlants); 
+            wateredSproutsTimers.push(timeSproutsToPlants);
+            maintab.appendChild(harvestPlants);
+            harvestPlants.visible = true;
         }
         document.getElementById('sproutsCounter').innerHTML = "Sprouts: " + sprouts + "/" + maxSprouts;   
         document.getElementById('waterCounter').innerHTML = "Water: " + water + "/" + maxWater + " fl oz";
+    }
+}
+
+//Function to remove 1 plant and add 5 beans
+function updateHarvestPlants(){
+    if(plants > 0 & beanCount < (maxBeans + harvestPlantsBeanCount)) {
+        plants--;
+        beanCount += harvestPlantsBeanCount;
+        document.getElementById('beanCounter').innerHTML = "Beans: "+ beanCount + "/" + maxBeans;
+        document.getElementById('plantsCounter').innerHTML = "Plants: " + plants + "/" + maxPlants;
     }
 }

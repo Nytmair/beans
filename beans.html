@@ -8,41 +8,53 @@
     <title>Beans.</title>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="header">
-            <div id="masterClock"></div>
+    <div class='wrapper'>
+        <div class='header'>
+            <div id='masterClock'></div>
         </div>
-        <div class="resources"><center>Resources</center><br>
-            <div id="beanCounter"></div>
-            <div id="sproutsCounter"></div>
-            <div id="waterCounter"></div>
-            <div id='growPlantsWrapper'>
-                <div id="plantsCounter"></div>
-            </div>
+        <div class='resources'><center>Resources</center><br>
+            <div id='beanCounter'></div>
+                <div id='progressBarBeanCounter' class='progress'> 
+                    <div id='progressBarBeanCounterFill' class='progressBarFill'></div>
+                </div>
+            <div id='sproutsCounter'></div>
+                <div id='progressBarSprouts' class='progress'> 
+                    <div id='progressBarSproutsFill' class='progressBarFill'></div>
+                </div>
+            <div id='waterCounter'></div>
+                <div id='progressBarWater' class='progress'> 
+                    <div id='progressBarWaterFill' class='progressBarFill'></div>
+                </div>
+            <div id='plantsCounter'></div>
+                <div id='progressBarPlants' class='progress'> 
+                    <div id='progressBarPlantsFill' class='progressBarFill'></div>
+                </div>
             <div class='tests'>
                 <div id='growingSproutsCounter'></div>
                 <div id='test2'></div>
                 <div id='test3'></div>
             </div>
         </div>
-        <div class="main">
-            <div id="tabs">
-                <div class="tab border">Tab 1</div>
-                <div class="tab">Tab 2</div>
-                <div class="tab">Tab 3</div>
-                <div class="tabContent">
-                    <div class="maintab"></div>
+        <div class='main'>
+            <div id='tabs'>
+                <div class='tab border'>Tab 1</div>
+                <div class='tab'>Tab 2</div>
+                <div class='tab'>Tab 3</div>
+                <div class='tabContent'>
+                    <div class='mainTab'></div>
                 </div>
-                <div class="tabContent">2</div>
-                <div class="tabContent">3</div>
+                <div class='tabContent'>
+                    <div class='villageTab'></div>
+                </div>
+                <div class='tabContent'>3</div>
             </div>
             <br>
-            <script src="beans.js" type="text/javascript"></script>
         </div>
-        <div class="events"><center>Events</center><br>
-            <div id="narrative001"></div>
+        <div class='events'><center>Events</center><br>
+            <div id='narrative001'></div>
         </div>
-        <div class="footer"><center>Footer</center></div>
+        <div class='footer'><center>Footer</center></div>
     </div>
+    <script src='beans.js' type='text/javascript'></script>
 </body>
 </html>

@@ -11,10 +11,21 @@ var maxWater = 4; //Max water in resources
 var waterTimer = 10; //Seconds after "gather water" button
 var plants = 0; //Plants count in resources
 var maxPlants = maxSprouts; //Max plants in resources
-var timeSproutsToPlants = 5; //Time for wateredSprout to grow into a plant (in seconds) after "water sprouts" button
+var timeSproutsToPlants = 25; //Time for wateredSprout to grow into a plant (in seconds) after "water sprouts" button
 var wateredSproutsTimers = []; //Array storing the wateredSprouts times until grown into plants
 var tab; 
 var tabContent;
+
+//Things to start hidden
+//Progress bars
+var progressBarSprouts = document.getElementById('progressBarSprouts');
+progressBarSprouts.style.display = 'none';
+
+var progressBarWater = document.getElementById('progressBarWater');
+progressBarWater.style.display = 'none';
+
+var progressBarPlants = document.getElementById('progressBarPlants');
+progressBarPlants.style.display = 'none';
 
 //Tabs Code
 window.onload=function() {
@@ -38,7 +49,7 @@ document.getElementById('tabs').onclick= function (event) {
 function hideTabsContent(a) {
     for (var i=a; i<tabContent.length; i++) {
         tabContent[i].classList.remove('show');
-        tabContent[i].classList.add("hide");
+        tabContent[i].classList.add('hide');
         tab[i].classList.remove('border');
     }
 }
@@ -57,8 +68,8 @@ var searchForBeans = document.createElement('button');
 searchForBeans.id = 'searchForBeans';
 searchForBeans.innerHTML = 'Search for beans';
 searchForBeans.visible = false;
-var maintab = document.getElementsByClassName('maintab')[0];
-maintab.appendChild(searchForBeans);
+var mainTab = document.getElementsByClassName('mainTab')[0];
+mainTab.appendChild(searchForBeans);
 
 //Plant Beans Button
 var plantBeans = document.createElement('button');
@@ -84,31 +95,52 @@ harvestPlants.id = 'harvestPlants';
 harvestPlants.innerHTML = 'Harvest plants';
 harvestPlants.visible = false;
 
+//Hire Village's Son Button
+var hireVillagerSon = document.createElement('button');
+hireVillagerSon.id = 'hireVillagerSon';
+hireVillagerSon.innerHTML = 'Hire Villager\'s Son';
+hireVillagerSon.visible = false;
+var villageTab = document.getElementsByClassName('villageTab')[0];
+villageTab.appendChild(hireVillagerSon);
+
 //What happens when buttons are clicked
 searchForBeans.addEventListener('click', updateBeanCount);
 plantBeans.addEventListener('click', updateSprouts);
 gatherWater.addEventListener('click', updateWater);
 waterSprouts.addEventListener('click', updatewaterSprouts);
 harvestPlants.addEventListener('click', updateHarvestPlants);
+hireVillagerSon.addEventListener('click', updateHireVillagerSon);
 
 //Display beanCount String from start
 document.getElementById('beanCounter').innerHTML = "Beans: "+ beanCount + "/" + maxBeans;
 
 //Narrative
-document.getElementById('narrative001').innerHTML = "test";
+document.getElementById('narrative001').innerHTML = "words words words";
 
 //Master Clock
 var x = 1;
-var masterClock = setInterval(tick, 1000);
+var masterClock = setInterval(tick, 200);
 
 function tick() {
-    document.getElementById("masterClock").innerHTML = "Seconds since starting: " + x;
-    x++;
+    document.getElementById('masterClock').innerHTML = "Seconds since starting: " + x.toFixed(2);
+    x += .2;
 
     growSproutsToPlants();
     updateGrowingSproutsCounter();
+    updateProgressBarFill(beanCount, maxBeans, 'progressBarBeanCounterFill');
+    updateProgressBarFill(sprouts, maxSprouts, 'progressBarSproutsFill');
+    updateProgressBarFill(water, maxWater, 'progressBarWaterFill');
+    updateProgressBarFill(plants, maxSprouts, 'progressBarPlantsFill');
 }
 
+
+//Function for progress bars
+function updateProgressBarFill(qty,maxQty,progressBarId) {
+    if (qty >= 0 && qty <= 100 ) {
+        document.getElementById(progressBarId).style.width = (qty/maxQty)*100 + "%"; 
+    }
+  }
+  
 //Function to update growingSproutsCounter
 function updateGrowingSproutsCounter() {
     if (waterSprouts.visible == true) {
@@ -121,11 +153,13 @@ function growSproutsToPlants() {
     for (var i = 0; i < wateredSproutsTimers.length; i++) {
         if( wateredSproutsTimers[i] > 0) {
             wateredSproutsTimers[i]--;
+            document.getElementById('test2').innerHTML = wateredSproutsTimers;
         } else {
             wateredSproutsTimers.splice(0,1);
             plants++;
         }
-        document.getElementById('plantsCounter').innerHTML = "Plants: " + plants + "/" + maxPlants; 
+        document.getElementById('plantsCounter').innerHTML = "Plants: " + plants + "/" + maxPlants;
+         
     }
   }
 
@@ -136,7 +170,8 @@ function updateBeanCount(){
         document.getElementById('beanCounter').innerHTML = "Beans: "+ beanCount + "/" + maxBeans;
     
         if(beanCount > 4 & searchForBeans.visible == false) {
-            maintab.appendChild(plantBeans);
+            mainTab.appendChild(plantBeans);
+            document.getElementById('growingSproutsCounter').visible = true;
             searchForBeans.visible = true;
         }
     }
@@ -154,8 +189,9 @@ function updateSprouts(){
         }
     }
     if(sprouts > 0 && plantBeans.visible == false) {
-        maintab.appendChild(gatherWater);
+        mainTab.appendChild(gatherWater);
         plantBeans.visible = true;
+        progressBarSprouts.style.display = 'block';
     }
 };
 
@@ -168,8 +204,9 @@ function updateWater(){
         document.getElementById('waterCounter').innerHTML = "Water: " + water + "/" + maxWater + " fl oz";
     }
     if(sprouts > 0 & water > 0 & waterSprouts.visible == false) {
-        maintab.appendChild(waterSprouts);
+        mainTab.appendChild(waterSprouts);
         waterSprouts.visible = true;
+        progressBarWater.style.display = 'block';
     }
 };
 
@@ -180,8 +217,9 @@ function updatewaterSprouts(){
         if(sprouts > 0 & (wateredSproutsTimers.length + plants) < maxPlants) {
             sprouts--;
             wateredSproutsTimers.push(timeSproutsToPlants);
-            maintab.appendChild(harvestPlants);
+            mainTab.appendChild(harvestPlants);
             harvestPlants.visible = true;
+            progressBarPlants.style.display = 'block';
         }
         document.getElementById('sproutsCounter').innerHTML = "Sprouts: " + sprouts + "/" + maxSprouts;   
         document.getElementById('waterCounter').innerHTML = "Water: " + water + "/" + maxWater + " fl oz";
@@ -190,10 +228,18 @@ function updatewaterSprouts(){
 
 //Function to remove 1 plant and add 5 beans
 function updateHarvestPlants(){
-    if(plants > 0 & beanCount < (maxBeans + harvestPlantsBeanCount)) {
+    if(plants > 0 && beanCount <= (maxBeans - harvestPlantsBeanCount)) {
         plants--;
         beanCount += harvestPlantsBeanCount;
         document.getElementById('beanCounter').innerHTML = "Beans: "+ beanCount + "/" + maxBeans;
         document.getElementById('plantsCounter').innerHTML = "Plants: " + plants + "/" + maxPlants;
+    }
+}
+
+//Function to hire villager's son
+function updateHireVillagerSon(){
+    if(plants > 10){
+        villageTab.appendChild(hireVillagerSon);
+        hireVillagerSon.visible = true;
     }
 }

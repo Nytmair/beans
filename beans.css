@@ -120,6 +120,18 @@
 #tabs .show {
     display: block;
 }
-.hrtabs {
-  border: 1px solid red;
+
+.progress {
+  margin: auto;
+  padding: 1px;
+  width: 100%;
+  border: 3px solid rgb(109, 109, 109);
+  height: 15px;
+}
+
+.progress .progressBarFill {
+  height: 100%;
+  width: 0%;
+  background-color: #05e35e;
+  transition: .3s;
 }

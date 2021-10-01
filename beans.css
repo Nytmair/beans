@@ -135,3 +135,10 @@
   background-color: #05e35e;
   transition: .3s;
 }
+
+.progress .progressBarTimerFill {
+  height: 100%;
+  width: 0%;
+  background-color: #05e35e;
+  transition: .3s;
+}

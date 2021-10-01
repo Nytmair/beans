@@ -1,20 +1,46 @@
 //Assign Variables
-var beanCount = 0; //Bean count in resources
-var maxBeans = 100; //Max beans in resources
+
+//Beans
+var beanCount = 0; //Count in resources
+var maxBeans = 1000; //Max in resources
+var beanSearchTimer = 10; //Seconds after to finish after button press
+var workersBeans = 0; //Number of workers
+var beanMultiBase = 1; //To use for multiplying buffs
+var beanClickBuff = 0; //Multiplier for click of the button
+var beanAutoMulti = 1; //Multiplier for auto
 var harvestPlantsBeanCount = 5; //Number of beans harvested per plant harvested
-var beanSearchTimer = 10; //Seconds after "search for beans" button
-var sprouts = 0; //Sprouts count in resources
-var maxSprouts = 15; //Max sprouts in resources
-var sproutsTimer = 15; //Seconds after "plant beans" button
-var water = 0; //Water count in resources
-var maxWater = 4; //Max water in resources
-var waterTimer = 10; //Seconds after "gather water" button
-var plants = 0; //Plants count in resources
-var maxPlants = maxSprouts; //Max plants in resources
-var timeSproutsToPlants = 25; //Time for wateredSprout to grow into a plant (in seconds) after "water sprouts" button
+
+//Sprouts
+var sprouts = 0; 
+var maxSprouts = 15; 
+var sproutsTimer = 15; 
+var workersSprouts = 0;
+var sproutsMulti = 1; 
+
+//Water
+var water = 0; 
+var maxWater = 4; 
+var waterTimer = 10; 
+var workersWater = 0;
+var waterMulti = 1;
+
+//Plants
+var plants = 0; 
+var maxPlants = maxSprouts;
+var timeSproutsToPlants = 50; //Time for wateredSprout to grow into a plant (in seconds) after "water sprouts" button 
 var wateredSproutsTimers = []; //Array storing the wateredSprouts times until grown into plants
+var workersPlants = 0;
+var plantsMulti = 1;
+
+//Harvest
+var workersHarvest = 0;
+
+//Tabs
 var tab; 
 var tabContent;
+
+//Buffs and Upgrades
+var buffVillagerSonLevel01 = 1.5;
 
 //Things to start hidden
 //Progress bars
@@ -26,6 +52,11 @@ progressBarWater.style.display = 'none';
 
 var progressBarPlants = document.getElementById('progressBarPlants');
 progressBarPlants.style.display = 'none';
+
+//Tabs
+document.getElementById('villageTab').style.visibility = 'hidden';
+document.getElementById('upgradesTab').style.visibility = 'hidden';
+
 
 //Tabs Code
 window.onload=function() {
@@ -95,7 +126,7 @@ harvestPlants.id = 'harvestPlants';
 harvestPlants.innerHTML = 'Harvest plants';
 harvestPlants.visible = false;
 
-//Hire Village's Son Button
+//Hire Villager's Son Button
 var hireVillagerSon = document.createElement('button');
 hireVillagerSon.id = 'hireVillagerSon';
 hireVillagerSon.innerHTML = 'Hire Villager\'s Son';
@@ -103,27 +134,44 @@ hireVillagerSon.visible = false;
 var villageTab = document.getElementsByClassName('villageTab')[0];
 villageTab.appendChild(hireVillagerSon);
 
+//Hire Villager's Brother Button
+var hireVillagerBrother = document.createElement('button');
+hireVillagerBrother.id = 'hireVillagerBrother';
+hireVillagerBrother.innerHTML = 'Hire Villager\'s Brother';
+hireVillagerBrother.visible = false;
+
+//Give Villager's Son a Raise Upgrade Button
+var buffVillagerSon = document.createElement('button');
+buffVillagerSon.id = 'buffVillagerSon';
+buffVillagerSon.innerHTML = 'Give Villager\'s Son a Raise';
+buffVillagerSon.visible = false;
+var upgradesTab = document.getElementsByClassName('upgradesTab')[0];
+upgradesTab.appendChild(buffVillagerSon);
+
 //What happens when buttons are clicked
 searchForBeans.addEventListener('click', updateBeanCount);
 plantBeans.addEventListener('click', updateSprouts);
 gatherWater.addEventListener('click', updateWater);
 waterSprouts.addEventListener('click', updatewaterSprouts);
 harvestPlants.addEventListener('click', updateHarvestPlants);
-hireVillagerSon.addEventListener('click', updateHireVillagerSon);
+hireVillagerSon.addEventListener('click', turnOnAutoBeans);
+hireVillagerBrother.addEventListener('click', turnOnAutoSprouts);
+buffVillagerSon.addEventListener('click', updateAutoMulti(beanAutoMulti, buffVillagerSonLevel01));
 
 //Display beanCount String from start
 document.getElementById('beanCounter').innerHTML = "Beans: "+ beanCount + "/" + maxBeans;
 
 //Narrative
-document.getElementById('narrative001').innerHTML = "words words words";
+document.getElementById('eventCurrent').innerHTML = "words words words";
 
 //Master Clock
 var x = 1;
-var masterClock = setInterval(tick, 200);
+var masterClock = setInterval(tick, 100);
 
+//Tick function 
 function tick() {
     document.getElementById('masterClock').innerHTML = "Seconds since starting: " + x.toFixed(2);
-    x += .2;
+    x += .1;
 
     growSproutsToPlants();
     updateGrowingSproutsCounter();
@@ -133,10 +181,9 @@ function tick() {
     updateProgressBarFill(plants, maxSprouts, 'progressBarPlantsFill');
 }
 
-
 //Function for progress bars
 function updateProgressBarFill(qty,maxQty,progressBarId) {
-    if (qty >= 0 && qty <= 100 ) {
+    if (qty >= 0 && qty <= maxQty ) {
         document.getElementById(progressBarId).style.width = (qty/maxQty)*100 + "%"; 
     }
   }
@@ -158,15 +205,19 @@ function growSproutsToPlants() {
             wateredSproutsTimers.splice(0,1);
             plants++;
         }
-        document.getElementById('plantsCounter').innerHTML = "Plants: " + plants + "/" + maxPlants;
-         
+        document.getElementById('plantsCounter').innerHTML = "Plants: " + plants + "/" + maxPlants;   
+    }
+    if(plants > 3 && hireVillagerSon.visible == false) {
+        villageTab.appendChild(hireVillagerSon);
+        hireVillagerSon.visible = true;
+        document.getElementById('villageTab').style.visibility = 'visible';
     }
   }
 
 //Function to add 1 bean per button click
 function updateBeanCount(){
     if(beanCount < maxBeans) {
-        beanCount++;
+        beanCount = beanCount + beanMultiBase*beanAutoMulti + beanClickBuff;
         document.getElementById('beanCounter').innerHTML = "Beans: "+ beanCount + "/" + maxBeans;
     
         if(beanCount > 4 & searchForBeans.visible == false) {
@@ -175,7 +226,6 @@ function updateBeanCount(){
             searchForBeans.visible = true;
         }
     }
-    
 };
 
 //Function to add 1 sprout and remove 1 bean per button click
@@ -236,10 +286,35 @@ function updateHarvestPlants(){
     }
 }
 
-//Function to hire villager's son
-function updateHireVillagerSon(){
-    if(plants > 10){
-        villageTab.appendChild(hireVillagerSon);
-        hireVillagerSon.visible = true;
+//Function when hiring villager's son
+function turnOnAutoBeans(){
+    workersBeans++;
+    document.getElementById('hireVillagerSon').disabled = true;
+    if(workersBeans > 0 && hireVillagerBrother.visible == false) {
+        villageTab.appendChild(hireVillagerBrother);
+        hireVillagerBrother.visible = true;
+        setInterval(updateBeanCount, 1000);
+        }
     }
+
+//Function when hiring villager's brother
+function turnOnAutoSprouts(){
+    workersSprouts++;
+    document.getElementById('hireVillagerBrother').disabled = true;
+    upgradesTab.appendChild(buffVillagerSon);
+    buffVillagerSon.visible = true;
+    document.getElementById('upgradesTab').style.visibility = 'visible';
+    if(workersSprouts > 0) {
+        setInterval(updateSprouts, 1000);
+        }
+    }
+
+//Funtions for upgrades and buffs
+function updateAutoMulti(multiUpgraded, upgradePurchased){
+    multiUpgraded = multiUpgraded*upgradePurchased;
+    return multiUpgraded;
+}
+
+function updateMaxQty(maxQty, upgradePurchased){
+    maxQty = maxQty + upgradePurchased;
 }

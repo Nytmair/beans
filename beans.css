@@ -37,6 +37,11 @@
     transform: translateY(2px);
   }
 
+  button:disabled {
+    transform: none;
+    background-color: hotpink;
+  }
+
   .header {
     border-style: solid;
     border-color: rgb(0, 0, 0);
@@ -100,7 +105,7 @@
 }
 
 #tabs .border {
-   border: 2px; 
+   border: 2px;
    border-style: solid;
    border-color: #707070;
    border-radius: 10px 10px 0  0;

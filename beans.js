@@ -149,7 +149,10 @@ var upgradesTab = document.getElementsByClassName('upgradesTab')[0];
 upgradesTab.appendChild(buffVillagerSon);
 
 //What happens when buttons are clicked
-searchForBeans.addEventListener('click', disableButton);
+searchForBeans.addEventListener('click', () => {
+    disableButton();
+    updateProgressBarTimerFill();
+});
 plantBeans.addEventListener('click', updateSprouts);
 gatherWater.addEventListener('click', updateWater);
 waterSprouts.addEventListener('click', updatewaterSprouts);
@@ -163,9 +166,9 @@ buffVillagerSon.addEventListener('click', function () {
 //Function to disable buttons for X time
 function disableButton() {
     document.getElementById('searchForBeans').disabled = true;
-    updateBeanCount();
     setTimeout(function () {
         document.getElementById('searchForBeans').disabled = false;
+        updateBeanCount();
     }, 5000);
 }
 
@@ -199,6 +202,11 @@ function updateProgressBarFill(qty, maxQty, progressBarId) {
     }
 }
 
+//Function for progress bar TIMERS
+function updateProgressBarTimerFill() {
+    document.getElementById('progressBarBeanTimerFill').style.animationDuration = "5s";
+}
+
 //Function to update growingSproutsCounter
 function updateGrowingSproutsCounter() {
     if (waterSprouts.visible == true) {
@@ -228,6 +236,7 @@ function growSproutsToPlants() {
 //Function to add 1 bean per button click
 function updateBeanCount() {
     if (beanCount < maxBeans) {
+        updateProgressBarTimerFill();
         beanCount = beanCount + beanMultiBase * beanAutoMulti + beanClickBuff;
         document.getElementById('beanCounter').innerHTML = "Beans: " + beanCount + "/" + maxBeans;
 

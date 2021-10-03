@@ -39,7 +39,7 @@
 
   button:disabled {
     transform: none;
-    background-color: hotpink;
+    background-color: rgb(160, 160, 160);
   }
 
   .header {
@@ -133,11 +133,19 @@
   border: 3px solid rgb(109, 109, 109);
   height: 15px;
 }
+.progressTimer {
+  margin: auto;
+  padding: 1px;
+  width: 100%;
+  border: 3px solid rgb(109, 109, 109);
+  border-top-width: 0px;
+  height: 5px;
+}
 
 .progress .progressBarFill {
   height: 100%;
   width: 0%;
-  background-color: #05e35e;
+  background: #05e35e;
   transition: .3s;
 }
 
@@ -145,5 +153,12 @@
   height: 100%;
   width: 0%;
   background-color: #05e35e;
-  transition: .3s;
+  animation-name: fillBar;
+  animation-iteration-count: 1;
+  animation-duration: 0s;
+}
+
+@keyframes fillBar {
+  from {width: 0%;}
+  to {width: 100%;}
 }

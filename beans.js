@@ -2,7 +2,7 @@
 
 //Beans
 var beanCount = 0; //Count in resources
-var maxBeans = 1000; //Max in resources
+var maxBeans = 100; //Max in resources
 var beanSearchTimer = 10; //Seconds after to finish after button press
 var workersBeans = 0; //Number of workers
 var beanMultiBase = 1; //To use for multiplying buffs
@@ -40,7 +40,7 @@ var tab;
 var tabContent;
 
 //Buffs and Upgrades
-var buffVillagerSonLevel01 = 1.5;
+var buffVillagerSonLevel01 = 1;
 
 //Things to start hidden
 //Progress bars
@@ -149,14 +149,25 @@ var upgradesTab = document.getElementsByClassName('upgradesTab')[0];
 upgradesTab.appendChild(buffVillagerSon);
 
 //What happens when buttons are clicked
-searchForBeans.addEventListener('click', updateBeanCount);
+searchForBeans.addEventListener('click', disableButton);
 plantBeans.addEventListener('click', updateSprouts);
 gatherWater.addEventListener('click', updateWater);
 waterSprouts.addEventListener('click', updatewaterSprouts);
 harvestPlants.addEventListener('click', updateHarvestPlants);
 hireVillagerSon.addEventListener('click', turnOnAutoBeans);
 hireVillagerBrother.addEventListener('click', turnOnAutoSprouts);
-buffVillagerSon.addEventListener('click', updateAutoMulti(beanAutoMulti, buffVillagerSonLevel01));
+buffVillagerSon.addEventListener('click', function() {
+    beanAutoMulti = updateAutoMulti(beanAutoMulti, buffVillagerSonLevel01)
+});
+
+//Function to disable buttons for X time
+function disableButton(){
+    setTimeout(function(){
+        document.getElementById('searchForBeans').disabled = true;
+        updateBeanCount;
+        setTimeout(document.getElementById('searchForBeans').disabled = false, 5000);
+    }, 5000);
+}
 
 //Display beanCount String from start
 document.getElementById('beanCounter').innerHTML = "Beans: "+ beanCount + "/" + maxBeans;
@@ -311,7 +322,7 @@ function turnOnAutoSprouts(){
 
 //Funtions for upgrades and buffs
 function updateAutoMulti(multiUpgraded, upgradePurchased){
-    multiUpgraded = multiUpgraded*upgradePurchased;
+    multiUpgraded = multiUpgraded + upgradePurchased;
     return multiUpgraded;
 }
 

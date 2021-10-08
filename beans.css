@@ -30,7 +30,7 @@
   }
 
   button:hover {
-    background-color: rgb(180, 180, 180);
+    background-color: rgb(240, 179, 255);
   }
 
   button:active {
@@ -76,6 +76,14 @@
     background-color: rgb(71, 71, 71);
     grid-area: 2 / 3 / 3 / 4;
     padding: 10px;
+    overflow:auto;
+    color:rgb(134, 134, 134)
+  }
+
+ .eventCurrent {
+    animation: fadeIn linear 5s;
+    visibility: visible;
+    color:rgb(255, 255, 255)
   }
 
   .footer {
@@ -130,35 +138,68 @@
   margin: auto;
   padding: 1px;
   width: 100%;
-  border: 3px solid rgb(109, 109, 109);
+  border: 2px solid rgb(109, 109, 109);
   height: 15px;
 }
+
 .progressTimer {
   margin: auto;
   padding: 1px;
   width: 100%;
-  border: 3px solid rgb(109, 109, 109);
-  border-top-width: 0px;
-  height: 5px;
+  border: 2px solid rgb(109, 109, 109);
+  border-top-style: none;
+  height: 7px;
 }
 
-.progress .progressBarFill {
+.progress .pbFill {
   height: 100%;
   width: 0%;
   background: #05e35e;
-  transition: .3s;
+  transition: .1s ease;
 }
 
-.progress .progressBarTimerFill {
+.progressTimer .pbTimerFill {
   height: 100%;
   width: 0%;
-  background-color: #05e35e;
-  animation-name: fillBar;
-  animation-iteration-count: 1;
-  animation-duration: 0s;
+  background: #e37b05;
 }
 
-@keyframes fillBar {
-  from {width: 0%;}
-  to {width: 100%;}
+.soloProgressTimer {
+  margin: auto;
+  padding: 1px;
+  width: 100%;
+  border: 2px solid rgb(109, 109, 109);
+  height: 9px;
+}
+
+.soloProgressTimer .soloProgressTimerFill {
+  height: 100%;
+  width: 0%;
+  background: #e37b05;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+
+/* Scroll bar width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #adadad; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(109, 109, 109); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,35 +8,50 @@
     <link rel="stylesheet" href="beans.css">
     <title>Beans.</title>
 </head>
+
 <body>
     <div class='wrapper'>
         <div class='header'>
             <div id='masterClock'></div>
         </div>
-        <div class='resources'><center>Resources</center><br>
-            <div id='beanCounter'><span id='beansPerSecond'></span></div>
-                    <div id='progressBarBeanCounter' class='progress'> 
-                    <div id='progressBarBeanCounterFill' class='progressBarFill'></div>
-                </div>
-                    <div id='progressBarBeanTimer' class='progressTimer'>
-                    <div id='progressBarBeanTimerFill' class='progressBarTimerFill'></div>
-                </div>
-            <div id='sproutsCounter'></div>
-                <div id='progressBarSprouts' class='progress'> 
-                    <div id='progressBarSproutsFill' class='progressBarFill'></div>
-                </div>
-            <div id='waterCounter'></div>
-                <div id='progressBarWater' class='progress'> 
-                    <div id='progressBarWaterFill' class='progressBarFill'></div>
-                </div>
-            <div id='plantsCounter'></div>
-                <div id='progressBarPlants' class='progress'> 
-                    <div id='progressBarPlantsFill' class='progressBarFill'></div>
-                </div>
-            <div class='tests'>
-                <div id='growingSproutsCounter'></div>
-                <div id='test2'></div>
-                <div id='test3'></div>
+        <div class='resources'>
+            <center>Resources</center><br>
+            <p>
+            <div style='float: left' id='beans'></div><span style="float: right;" id='beansPS'></span></p><br>
+            <div id='pbBeans' class='progress'>
+                <div id='pbBeansFill' class='pbFill'></div>
+            </div>
+            <div id='pbBeansTimer' class='progressTimer'>
+                <div id='pbBeansTimerFill' class='pbTimerFill'></div>
+            </div>
+            <br>
+            <div style='float: left' id='sprouts'></div><span style="float: right;" id='sproutsPS'></span></p><br>
+            <div id='pbSprouts' class='progress'>
+                <div id='pbSproutsFill' class='pbFill'></div>
+            </div>
+            <div id='pbSproutsTimer' class='progressTimer'>
+                <div id='pbSproutsTimerFill' class='pbTimerFill'></div>
+            </div>
+            <br>
+            <div style='float: left' id='water'></div><span style="float: right;" id='waterPS'></span></p><br>
+            <div id='pbWater' class='progress'>
+                <div id='pbWaterFill' class='pbFill'></div>
+            </div>
+            <div id='pbWaterTimer' class='progressTimer'>
+                <div id='pbWaterTimerFill' class='pbTimerFill'></div>
+            </div>
+            <br>
+            <div style='float: left' id='plants'></div><span style="float: right;" id='plantsPS'></span></p><br>
+            <div id='pbPlants' class='progress'>
+                <div id='pbPlantsFill' class='pbFill'></div>
+            </div>
+            <div id='pbPlantsTimer' class='progressTimer'>
+                <div id='pbPlantsTimerFill' class='pbTimerFill'></div>
+            </div>
+            <br>
+            <div id='harvest'></div>
+            <div id='pbHarvestTimer' class='soloProgressTimer'>
+                <div id='pbHarvestTimerFill' class='soloProgressTimerFill'></div>
             </div>
         </div>
         <div class='main'>
@@ -49,18 +65,22 @@
                 <div id='villageTabContent' class='tabContent'>
                     <div class='villageTab'></div>
                 </div>
-                <div id='upgradesTabContent'class='tabContent'>
+                <div id='upgradesTabContent' class='tabContent'>
                     <div class='upgradesTab'></div>
                 </div>
             </div>
             <br>
         </div>
-        <div class='events'><center>Events</center><br>
-            <div id='eventCurrent'></div>
-            <div id='eventLog'></div>
+        <div class='events'>
+            <center>Events</center><br>
+            <div class='eventCurrent' id='eventCurrent'></div><br>
+            <div class='eventLog' id='eventLog'></div>
         </div>
-        <div class='footer'><center>Footer</center></div>
+        <div class='footer'>
+            <center>Footer</center>
+        </div>
     </div>
     <script src='beans.js' type='text/javascript'></script>
 </body>
+
 </html>
